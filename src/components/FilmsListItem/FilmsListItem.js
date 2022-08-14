@@ -12,7 +12,6 @@ export const FilmsListItem = ({
 }) => {
   return (
     <li>
-      <img src={poster} alt={title} width="200" />
       <h2>{title}</h2>
       <p>Votes: {votes}</p>
       <p>

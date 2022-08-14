@@ -1,16 +1,11 @@
 import { Box } from './Box';
 import { GlobalStyle } from './GlobalStyle';
-// import { Counter } from 'components/Counter/Counter';
-// import { Toggle } from 'components/Toggle/Toggle';
-// import { LoginForm } from 'components/LoginForm/LoginForm';
-// import { SignUpForm } from 'components/SignUpForm/SignUpForm';
-// import { App2 } from './ArticleList/ArticleList';
 import { Component } from 'react';
 import { FilmsList } from './FilmsList/FilmsList';
 import { Button } from './Button/Button';
 import { getFilmsData } from 'utils/getFilms';
-import data from '../data/data.json';
 import { Modal } from './Modal/Modal';
+import data from '../data/data.json';
 
 export class App extends Component {
   state = {
@@ -74,22 +69,6 @@ export class App extends Component {
             <Modal imageUrl={currentImage} closeModal={this.closeModal} />
           )}
         </Box>
-
-        {/* <Box>
-          <Box p={3}>
-            <Counter step={5} initialValue={10} />
-          </Box>
-          <Box p={3}>
-            <Toggle />
-          </Box>
-          <Box p={3}>
-            <LoginForm onSubmit={values => console.log(values)} />
-          </Box>
-          <Box p={3}>
-            <SignUpForm onSubmit={values => console.log(values)} />
-          </Box>
-        </Box>
-        <App2 /> */}
       </>
     );
   }

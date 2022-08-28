@@ -5,13 +5,34 @@ import { FilmsList } from './FilmsList/FilmsList';
 import { Button } from './Button/Button';
 import { getFilmsData } from 'utils/getFilms';
 import { Modal } from './Modal/Modal';
-import data from '../data/data.json';
+// import data from '../data/data.json';
+import { getMovies } from 'api';
 
 export class App extends Component {
   state = {
     isShown: false,
-    movies: getFilmsData(data),
+    movies: [],
     currentImage: '',
+    page: 1,
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      this.state.isShown !== prevState.isShown ||
+      this.state.page !== prevState.page
+    ) {
+      this.fetchMovies();
+    }
+  }
+
+  fetchMovies = () => {
+    getMovies(this.state.page).then(data => {
+      this.setState(prevState => {
+        return {
+          movies: [...prevState.movies, ...getFilmsData(data.data.results)],
+        };
+      });
+    });
   };
 
   handleClick = () => {
@@ -44,6 +65,12 @@ export class App extends Component {
     this.setState({ currentImage: '' });
   };
 
+  handleLoadMore = () => {
+    this.setState(prevState => {
+      return { page: prevState.page + 1 };
+    });
+  };
+
   render() {
     const { currentImage, isShown, movies } = this.state;
 
@@ -52,12 +79,19 @@ export class App extends Component {
         <GlobalStyle />
         <Box>
           {isShown ? (
-            <FilmsList
-              movies={movies}
-              idToDelete={this.deleteFilm}
-              toggleStatus={this.toggleStatus}
-              openModal={this.openModal}
-            />
+            <>
+              <FilmsList
+                movies={movies}
+                idToDelete={this.deleteFilm}
+                toggleStatus={this.toggleStatus}
+                openModal={this.openModal}
+              />
+              <Button
+                handleClick={this.handleLoadMore}
+                text="Show more films"
+                type="button"
+              />
+            </>
           ) : (
             <Button
               handleClick={this.handleClick}
